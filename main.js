@@ -1,4 +1,23 @@
-const { app, BrowserWindow, Notification } = require('electron');
+const {
+  app,
+  BrowserWindow,
+  Notification,
+  ipcMain,
+  session,
+} = require('electron');
+const path = require('path');
+const os = require('os');
+
+const isDev = !app.isPackaged;
+
+// const reactDevToolsPath = path.join(
+//   os.homedir(),
+//   '/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.13.1_0'
+// );
+
+// const usereactDevTools = async () => {
+//   await session.defaultSession.loadExtension(reactDevToolsPath);
+// };
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -6,19 +25,34 @@ const createWindow = () => {
     height: 1000,
     backgroundColor: 'white',
     webPreferences: {
-      nodeIntegration: true,
-      /* sanatize JS code */
+      nodeIntegration: false,
       worldSafeExecuteJavaScript: true,
-      /* is a feuture that ensures that both,  your preload scripts and electron internal logic tun separete context */
-      contextIsolation: true
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js'),
     },
   });
 
   win.loadFile('index.html');
-  win.webContents.openDevTools();
+  isDev && win.webContents.openDevTools();
 };
 
-app.whenReady().then(createWindow);
+if (isDev) {
+  require('electron-reload')(__dirname, {
+    electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
+  });
+}
+
+app.whenReady().then(() => {
+  createWindow();
+  // usereactDevTools();
+});
+
+ipcMain.on('notify', (e, message) => {
+  new Notification({
+    title: 'Notification',
+    body: message,
+  }).show();
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -33,7 +67,6 @@ app.on('activate', () => {
 });
 
 // chromiun web engine for rendering ui
-
 
 /* webpack is a mudole builder, main purpese is to bundle JS files for usege in the browser */
 /* Babel is js compiler */
