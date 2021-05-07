@@ -4,28 +4,35 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 // internal component
 import Home from '../views/Home';
 import Navbar from '../components/Navbar/Navbar';
+import Login from '../views/Login';
+import Chat from '../views/Chat';
+import Setting from '../views/Setting';
+import Register from '../views/Register';
 
 const App = () => {
-  // ########## HOME VIEW START ############
   return (
     <div className="content-wrapper">
       <Router>
         <Navbar />
         <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+
+          <Route path="/chat/:chat">
+            <Chat />
+          </Route>
+
           <Route path="/settings">
-            <h1>settings</h1>
+            <Setting />
           </Route>
 
           <Route path="/login">
-            <h1>Login</h1>
+            <Login />
           </Route>
 
           <Route path="/register">
-            <h1>Register</h1>
-          </Route>
-
-          <Route path="/">
-            <Home />
+            <Register />
           </Route>
         </Switch>
       </Router>

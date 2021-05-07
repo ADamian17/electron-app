@@ -9,7 +9,7 @@ const Home = () => {
     <div className="row no-gutters fh">
       <JoinChats />
       <div className="col-9 fh">
-        <ViewTitle />
+        <ViewTitle title="Choose your channel" />
         <AvailalibleChats />
       </div>
     </div>
