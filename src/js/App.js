@@ -10,6 +10,7 @@ import Setting from '../views/Setting';
 import Register from '../views/Register';
 
 const App = () => {
+  
   return (
     <div className="content-wrapper">
       <Router>
@@ -19,7 +20,7 @@ const App = () => {
             <Home />
           </Route>
 
-          <Route path="/chat/:chat">
+          <Route path="/chat/:id">
             <Chat />
           </Route>
 

@@ -7,8 +7,8 @@ import ViewTitle from '../components/shared/ViewTitle';
 import ChatMessageList from '../components/ChatMessageList/ChatMessageList';
 
 const Chat = () => {
-  const params = useParams()
-  const title = params.chat.replace('-', ' ')
+  const { id } = useParams()
+  const title = `Joined Chat ${id}`
 
   return (
 
