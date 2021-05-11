@@ -15,7 +15,9 @@ const RegisterForm = () => {
   const [username, setUsername] = useState('')
   const [avatar, setAvatar] = useState('')
 
-  const setCurrentUser = useSetRecoilState(user)
+  const [err, setErr] = useState(null)
+
+  const setCurrentUser = useSetRecoilState(user);
 
   const handleSubmit = async (e) => {
     try {
@@ -25,16 +27,17 @@ const RegisterForm = () => {
 
       onAuthChange(authUser => {
         if (authUser) {
-          setCurrentUser(authUser.uid)
-          electron_methods.setLocalStorageItem('uid', authUser.uid);
+          setCurrentUser(authUser.uid);
+          localStorage.setItem('uid', authUser.uid);
           history.push('/home')
         } else {
-          electron_methods.print('we are NOT authenticated')
+          console.log('we are NOT authenticated')
         }
       });
 
     } catch (error) {
-      return electron_methods.print(error);
+      console.log({ error });
+      return setErr(error);
     }
 
   }
@@ -84,7 +87,7 @@ const RegisterForm = () => {
             id="password"
             onChange={(e) => setPassword(e.target.value)} />
         </div>
-        {false && <div className="alert alert-danger small">Some Error</div>}
+        {err && <div className="alert alert-danger small">{err}</div>}
         <button type="submit" className="btn btn-outline-primary">Register</button>
       </div>
     </form>

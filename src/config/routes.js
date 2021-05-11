@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 /* recoil hook to access the atom */
 import { useRecoilValue } from 'recoil';
@@ -27,21 +27,13 @@ const Routes = () => {
 
   return (
     <Switch>
-      <Route exact path="/">
-        <Welcome />
-      </Route>
+      <Route exact path="/" component={Welcome} />
 
-      <Route path="/home">
-        <Home />
-      </Route>
+      <PrivateRoute path="/home" Component={Home} />
 
-      <Route path="/chat/:id">
-        <Chat />
-      </Route>
+      <PrivateRoute path="/chat/:id" Component={Chat} />
 
-      <Route path="/settings">
-        <Setting />
-      </Route>
+      <Route path="/settings" component={Setting} />
     </Switch>
   );
 };

@@ -1,20 +1,36 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { login } from '../../js/api/auth';
+import { login, getUserProfile } from '../../js/api/auth';
 
 import { useSetRecoilState } from 'recoil';
-import { user } from '../../recoil/user/atom';
+import { user, profile } from '../../recoil/user/atom';
 
 const LoginForm = () => {
+  const history = useHistory()
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const data = { email, password }
-    debugger
-    login(data)
+  const [err, setErr] = useState(null)
+
+  const setCurrentUser = useSetRecoilState(user)
+  const setProfile = useSetRecoilState(profile);
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault()
+      const data = { email, password }
+      const res = await login(data)
+      const profileRes = await getUserProfile(res.uid)
+
+      setCurrentUser(res.uid)
+      setProfile(profileRes)
+      localStorage.setItem('uid', res.uid);
+      history.push('/home')
+    } catch (error) {
+      return setErr(error.message)
+    }
   }
 
   return (
@@ -42,7 +58,7 @@ const LoginForm = () => {
             id="password"
             onChange={(e) => setPassword(e.target.value)} />
         </div>
-        {false && <div className="alert alert-danger small">Some error</div>}
+        {err && <div className="alert alert-danger small">{err}</div>}
         <button type="submit" className="btn btn-outline-primary">Login</button>
       </div>
     </form>

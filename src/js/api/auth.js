@@ -6,6 +6,13 @@ import db from '../firebase/firebase';
 const createUserProfile = (data) =>
   db.collection('profiles').doc(data.uid).set(data);
 
+export const getUserProfile = async (uid) => {
+  if (!uid) return null;
+  const res = await db.collection('profiles').doc(uid).get();
+
+  return res.data();
+};
+
 export const register = async ({ email, password, username, avatar }) => {
   try {
     const res = await firebase
@@ -25,8 +32,10 @@ export const register = async ({ email, password, username, avatar }) => {
   }
 };
 
-export const login = ({ email, password }) =>
-  firebase.auth().signInWithEmailAndPassword(email, password);
+export const login = async ({ email, password }) => {
+  const res = await firebase.auth().signInWithEmailAndPassword(email, password);
+  return res.user;
+};
 
 export const onAuthChange = (onAuth) =>
   firebase.auth().onAuthStateChanged(onAuth);
