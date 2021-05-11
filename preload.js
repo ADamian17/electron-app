@@ -9,4 +9,11 @@ contextBridge.exposeInMainWorld('electron_methods', {
   print: function (log) {
     return console.log(log);
   },
+  setLocalStorageItem: function (item, value) {
+    localStorage.setItem(item, value);
+  },
+  getLocalStorageItem: function (item) {
+    return localStorage.getItem(item);
+  },
+  clearLocalStorage: () => localStorage.clear(),
 });

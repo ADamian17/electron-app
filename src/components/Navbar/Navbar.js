@@ -1,8 +1,23 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
+import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { user } from '../../recoil/user/atom';
+
+import { logout } from '../../js/api/auth';
+
 const Navbar = () => {
   const history = useHistory();
+  const currentUser = useRecoilValue(user);
+  const resestUser = useResetRecoilState(user);
+  electron_methods.print({ currentUser });
+
+  const handleLogout = () => {
+    electron_methods.clearLocalStorage();
+    logout();
+    resestUser();
+    history.push('/');
+  };
 
   return (
     <div className="chat-navbar">
@@ -19,14 +34,22 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="chat-navbar-inner-right">
-          <span className="logged-in-user">Hi User</span>
-
-          <Link to="/register" className="btn btn-outline-danger ml-2">
-            Register
-          </Link>
-          <Link to="/login" className="btn btn-outline-success ml-2">
-            Login
-          </Link>
+          {!currentUser ? (
+            <Link to="/" className="btn btn-outline-success ml-2">
+              Login
+            </Link>
+          ) : (
+            <>
+              <span className="logged-in-user">Hi User</span>
+              <button
+                to="/"
+                onClick={handleLogout}
+                className="btn btn-outline-danger ml-2"
+              >
+                logout
+              </button>
+            </>
+          )}
         </div>
       </nav>
     </div>

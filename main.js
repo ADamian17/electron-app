@@ -3,21 +3,20 @@ const {
   BrowserWindow,
   Notification,
   ipcMain,
-  session,
 } = require('electron');
+const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 const path = require('path');
-const os = require('os');
 
 const isDev = !app.isPackaged;
 
-// const reactDevToolsPath = path.join(
-//   os.homedir(),
-//   '/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.13.1_0'
-// );
-
-// const usereactDevTools = async () => {
-//   await session.defaultSession.loadExtension(reactDevToolsPath);
-// };
+const usereactDevTools = async () => {
+  try {
+    const reactDevTools = await installExtension(REACT_DEVELOPER_TOOLS);
+    return console.log(`Added Extension:  ${reactDevTools}`);
+  } catch (error) {
+    return console.log('An error occurred: ', error);
+  }
+};
 
 const createWindow = () => {
   const win = new BrowserWindow({
