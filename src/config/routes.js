@@ -13,6 +13,7 @@ import Setting from '../views/Setting';
 
 const Routes = () => {
   const isVerify = useRecoilValue(verifedUser);
+  console.log({ isVerify });
 
   const PrivateRoute = ({ Component, ...rest }) => {
     return (
