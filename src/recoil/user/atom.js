@@ -7,5 +7,5 @@ export const user = atom({
 
 export const profile = atom({
   key: 'profile',
-  default: {},
+  default: null,
 });

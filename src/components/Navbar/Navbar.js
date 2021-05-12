@@ -22,12 +22,16 @@ const Navbar = () => {
     setUserProfile(res);
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    logout();
-    resetProfile();
-    resestUser();
-    history.push('/');
+  const handleLogout = async () => {
+    try {
+      localStorage.clear();
+      resetProfile();
+      resestUser();
+      await logout();
+      history.push('/');
+    } catch (error) {
+      return console.log(error);
+    }
   };
 
   return (
