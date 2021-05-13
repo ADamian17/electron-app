@@ -1,20 +1,7 @@
 const { app, BrowserWindow, Notification, ipcMain } = require('electron');
-const {
-  default: installExtension,
-  REACT_DEVELOPER_TOOLS,
-} = require('electron-devtools-installer');
 const path = require('path');
 
 const isDev = !app.isPackaged;
-
-// const usereactDevTools = async () => {
-//   try {
-//     const reactDevTools = await installExtension(REACT_DEVELOPER_TOOLS);
-//     return console.log(`Added Extension:  ${reactDevTools}`);
-//   } catch (error) {
-//     return console.log('An error occurred: ', error);
-//   }
-// };
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -39,10 +26,7 @@ if (isDev) {
   });
 }
 
-app.whenReady().then(() => {
-  createWindow();
-  // usereactDevTools();
-});
+app.whenReady().then(createWindow);
 
 ipcMain.on('notify', (e, message) => {
   new Notification({
