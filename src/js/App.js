@@ -2,15 +2,22 @@ import React, { useEffect } from 'react';
 
 // internal component
 import Routes from '../config/routes';
+import Loading from '../components/shared/Loading';
 
 import useOnlineStatus from '../hooks/useOnlineStatus';
 
 const App = () => {
   const onlineStatus = useOnlineStatus();
 
-  useEffect(() => {
-    console.log({ onlineStatus });
-  }, [onlineStatus]);
+  if (!onlineStatus) {
+    return (
+      <Loading
+        message={
+          'Application has been disconnected from the internet. Please reconnect...'
+        }
+      />
+    );
+  }
 
   return (
     <div className="content-wrapper">
@@ -20,5 +27,3 @@ const App = () => {
 };
 
 export default App;
-
-// https://replit.com/join/jwvoqyob-adonismartin

@@ -8,7 +8,6 @@ const Loading = ({ message = 'Just one moment please...' }) => (
       <div className="loading-view-container">
         <div className="mb-3">{message}</div>
         <Loader />
-        <Loader />
       </div>
     </div>
   </div>
