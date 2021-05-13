@@ -13,7 +13,6 @@ import Setting from '../views/Setting';
 
 const Routes = () => {
   const isVerify = useRecoilValue(verifedUser);
-  console.log({ isVerify });
 
   const PrivateRoute = ({ Component, ...rest }) => {
     return (
@@ -32,9 +31,9 @@ const Routes = () => {
 
       <PrivateRoute path="/home" Component={Home} />
 
-      <PrivateRoute path="/chat/:id" Component={Chat} />
+      <PrivateRoute path="/settings" Component={Setting} />
 
-      <Route path="/settings" component={Setting} />
+      <PrivateRoute path="/chat/:id" Component={Chat} />
     </Switch>
   );
 };

@@ -7,11 +7,11 @@ import Routes from '../config/routes';
 const App = () => {
   return (
     <div className="content-wrapper">
-      <BaseLayout>
-        <Routes />
-      </BaseLayout>
+      <Routes />
     </div>
   );
 };
 
 export default App;
+
+// https://replit.com/join/jwvoqyob-adonismartin

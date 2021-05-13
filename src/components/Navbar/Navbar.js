@@ -6,8 +6,11 @@ import { user, profile } from '../../recoil/user/atom';
 
 import { logout, getUserProfile } from '../../js/api/auth';
 
-const Navbar = () => {
+import BackBtn from '../shared/BackBtn';
+
+const Navbar = ({ canGoBack, view }) => {
   const history = useHistory();
+
   const currentUser = useRecoilValue(user);
   const resestUser = useResetRecoilState(user);
   const resetProfile = useResetRecoilState(profile);
@@ -38,18 +41,15 @@ const Navbar = () => {
     <div className="chat-navbar">
       <nav className="chat-navbar-inner">
         <div className="chat-navbar-inner-left">
-          <button
-            className="btn btn-outline-primary"
-            onClick={() => history.goBack()}
-          >
-            Back
-          </button>
-          <Link to="/settings" className="btn btn-outline-success ml-2">
-            Settings
-          </Link>
+          {canGoBack && <BackBtn />}
+          {view !== 'Setting' && (
+            <Link to="/settings" className="btn btn-outline-success ml-2">
+              Settings
+            </Link>
+          )}
         </div>
         <div className="chat-navbar-inner-right">
-          {currentUser && userProfile ? (
+          {userProfile && (
             <>
               <img
                 className="avatar rounded-circle mr-2"
@@ -68,10 +68,6 @@ const Navbar = () => {
                 logout
               </button>
             </>
-          ) : (
-            <Link to="/" className="btn btn-outline-success ml-2">
-              Login
-            </Link>
           )}
         </div>
       </nav>

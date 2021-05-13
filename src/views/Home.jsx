@@ -5,6 +5,7 @@ import { chats } from '../recoil/chats/atom';
 
 import { fetchChacts } from '../js/api/chat';
 
+import { withBaseLayout } from '../layout/base';
 import AvailalibleChats from '../components/AvailalibleChats/AvailalibleChats';
 import JoinChats from '../components/JoinChats/JoinChats';
 import ViewTitle from '../components/shared/ViewTitle';
@@ -36,4 +37,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default withBaseLayout(Home);

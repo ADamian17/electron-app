@@ -6,16 +6,30 @@ import { verifedUser } from '../recoil/user/selector';
 import Navbar from '../components/Navbar/Navbar';
 
 const BaseLayout = ({ children, ...rest }) => {
-  const isVerify = useRecoilValue(verifedUser);
-
   return (
     <>
-      {
-        isVerify ? <Navbar {...rest} /> : ''
-      }
+      <Navbar {...rest} />
       {children}
     </>
   )
 }
 
 export default BaseLayout;
+
+
+const getComponentName = (Component) => {
+  return Component.displayName || Component.name || 'Component'
+}
+
+export const withBaseLayout = (Component, config) => (props) => {
+
+  const viewName = getComponentName(Component)
+
+  return (
+    <>
+      <Navbar {...config} view={viewName} />
+      <Component {...props} />
+    </>
+
+  )
+};

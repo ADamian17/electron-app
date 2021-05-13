@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom'
-
-import { useRecoilValue } from 'recoil';
-import { user } from '../recoil/user/atom';
 
 import LoginForm from '../components/LoginForm/LoginForm';
 import RegisterForm from '../components/ResgisterForm/ResgisterForm';
