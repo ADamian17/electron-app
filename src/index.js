@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { HashRouter as Router } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
-import App from './App';
+import App from './js/App';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
