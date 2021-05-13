@@ -9,3 +9,8 @@ export const profile = atom({
   key: 'profile',
   default: null,
 });
+
+export const onlineStatus = atom({
+  key: 'onlineStatus',
+  default: navigator.onLine,
+});
