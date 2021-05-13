@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useReducer } from 'react';
+
+import { notification } from '../utils/funts';
 
 // internal component
 import Routes from '../config/routes';
@@ -8,6 +10,10 @@ import useOnlineStatus from '../hooks/useOnlineStatus';
 
 const App = () => {
   const onlineStatus = useOnlineStatus();
+
+  useEffect(() => {
+    notification(onlineStatus);
+  }, [onlineStatus]);
 
   if (!onlineStatus) {
     return (
