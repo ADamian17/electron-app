@@ -25,11 +25,11 @@ const NewChat = () => {
       const userRef = db.doc(`profiles/${currentUser}`);
       // const data = { name, description, image, admin: userRef, joinedUsers: [userRef] }
 
-      // const res = await createChat({ name, description, image, admin: userRef, joinedUsers: [userRef] })
-      // if (res) {
-      //   console.log({ res });
-      //   history.push('/home');
-      // }
+      const res = await createChat({ name, description, image, admin: userRef, joinedUsers: [userRef] })
+      if (res) {
+        console.log({ res });
+        history.push('/home');
+      }
     } catch (error) {
       console.log({ error });
       return setErr(error);
