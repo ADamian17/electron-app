@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
-  chats: [],
+  joined: [],
+  availible: [],
 };
 
 const chatsReducer = (state = INITIAL_STATE, action) => {
