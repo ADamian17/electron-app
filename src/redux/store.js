@@ -3,15 +3,9 @@ import logger from 'redux-logger';
 
 import rootReducer from './root-reducer';
 
-let middlewares = [];
+let middlewares = [logger];
 
-if (process.env.NODE_ENV === 'development') {
-  middlewares = [logger, ...middlewares];
-} else {
-  middlewares = [...middlewares];
-}
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = compose;
 
 const store = createStore(
   rootReducer,

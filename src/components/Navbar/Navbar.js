@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { useRecoilValue, useResetRecoilState, useRecoilState } from 'recoil';
 import { user, profile } from '../../recoil/user/atom';
@@ -11,8 +12,8 @@ import BackBtn from '../shared/BackBtn';
 const Navbar = ({ canGoBack, view }) => {
   const history = useHistory();
 
-  const currentUser = useRecoilValue(user);
-  const resestUser = useResetRecoilState(user);
+  const currentUser = useSelector((state) => state.auth.userId);
+
   const resetProfile = useResetRecoilState(profile);
   const [userProfile, setUserProfile] = useRecoilState(profile);
 
@@ -22,7 +23,8 @@ const Navbar = ({ canGoBack, view }) => {
 
   const fetchProfile = async () => {
     const res = await getUserProfile(currentUser);
-    setUserProfile(res);
+    // setUserProfile(res);
+    console.log('%c currentUser', 'color: green', currentUser);
   };
 
   const handleLogout = async () => {
