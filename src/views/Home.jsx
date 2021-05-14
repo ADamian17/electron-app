@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 
-import { useRecoilState } from 'recoil';
-import { chats } from '../recoil/chats/atom';
-
-import { fetchChacts } from '../js/api/chat';
+import { fetchChats } from '../redux/chats/chats.actions';
+import { useDispatch, useSelector } from 'react-redux'
 
 import { withBaseLayout } from '../layout/base';
 import AvailalibleChats from '../components/AvailalibleChats/AvailalibleChats';
@@ -11,21 +9,13 @@ import JoinChats from '../components/JoinChats/JoinChats';
 import ViewTitle from '../components/shared/ViewTitle';
 
 const Home = () => {
-  const [chatsList, setChatsList] = useRecoilState(chats);
+  const dispatch = useDispatch()
+  const chatsList = useSelector(state => state.chats.items);
+  console.log({ chatsList });
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      // const res = await fetchChacts();
-      // console.log(res);
-      // setChatsList(res);
-    } catch (error) {
-      return console.log(error);
-    }
-  };
+    dispatch(fetchChats());
+  }, [dispatch]);
 
   return (
     <div className="row no-gutters fh">

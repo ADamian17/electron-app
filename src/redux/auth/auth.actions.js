@@ -2,16 +2,16 @@ import * as api from '../../js/api/auth';
 
 import { AuthActionTypes } from './auth.types';
 
-export const registerUser = (formData) => (dispatch) => {
-  dispatch({ type: AuthActionTypes.AUTH_REGISTER_INIT });
-  return api
-    .register(formData)
-    .then((user) =>
-      dispatch({ type: AuthActionTypes.AUTH_REGISTER_SUCCESS, user })
-    )
-    .catch((error) =>
-      dispatch({ type: AuthActionTypes.AUTH_REGISTER_ERROR, error })
-    );
+export const register = (formData) => async (dispatch) => {
+  try {
+    dispatch({ type: AuthActionTypes.AUTH_REGISTER_INIT });
+
+    const user = await api.register(formData);
+
+    dispatch({ type: AuthActionTypes.AUTH_REGISTER_SUCCESS, user });
+  } catch (error) {
+    dispatch({ type: AuthActionTypes.AUTH_REGISTER_ERROR, error });
+  }
 };
 
 export const loginUser = (formData) => (dispatch) => {

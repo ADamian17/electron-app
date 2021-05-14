@@ -1,6 +1,6 @@
 import db from '../firebase/firebase';
 
-export const fetchChacts = async () => {
+export const fetchChats = async () => {
   try {
     const res = await db.collection('chats').get();
     const data = await res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));

@@ -6,5 +6,5 @@ import chatsReducer from './chats/chats.reducer';
 
 export default combineReducers({
   auth: authReducer,
-  chatsReducer: chatsReducer,
+  chats: chatsReducer,
 });
