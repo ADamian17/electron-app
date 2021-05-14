@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 
-import { useRecoilState } from 'recoil';
-import { chats } from '../recoil/chats/atom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { chats, availibleChats, joinedChats } from '../recoil/chats/atom';
+import { user } from '../recoil/user/atom';
 
 import { fetchChacts } from '../js/api/chat';
 
@@ -12,6 +13,9 @@ import ViewTitle from '../components/shared/ViewTitle';
 
 const Home = () => {
   const [chatsList, setChatsList] = useRecoilState(chats);
+  const [joined, setJoined] = useRecoilState(joinedChats);
+  const [availible, setavailible] = useRecoilState(availibleChats);
+  const currentUser = useRecoilValue(user)
 
   useEffect(() => {
     fetchData();
@@ -19,20 +23,21 @@ const Home = () => {
 
   const fetchData = async () => {
     try {
-      const res = await fetchChacts();
-      console.log(res);
-      setChatsList(res);
+      const chats = await fetchChacts();
+      console.log({ chats });
+      setChatsList(chats);
+      sortChat()
     } catch (error) {
-      return electron_methods.print(error);
+      return console.log(error);
     }
   };
 
   return (
     <div className="row no-gutters fh">
-      <JoinChats chats={chatsList} />
+      <JoinChats chats={[]} />
       <div className="col-9 fh">
         <ViewTitle title="Choose your channel" />
-        <AvailalibleChats chats={chatsList} />
+        <AvailalibleChats chats={[]} />
       </div>
     </div>
   );

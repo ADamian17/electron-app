@@ -10,7 +10,7 @@ const JoinChats = ({ chats }) => {
       <div className="list-container">
         <ChatSearch />
         <ul className="items">
-          {chats.length !== 0 ? (
+          {chats && chats.length !== 0 ? (
             <ChatList chats={chats} CardComponent={ChatCard} />
           ) : (
             <div> no chats</div>

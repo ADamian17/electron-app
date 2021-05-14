@@ -5,7 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { user } from '../../recoil/user/atom';
 
 import { withBaseLayout } from '../../layout/base';
-// import { createChat } from '../../js/api/chat';
+import { createChat } from '../../js/api/chat';
 
 import db from '../../js/firebase/firebase';
 
@@ -22,10 +22,8 @@ const NewChat = () => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault()
-      const userRef = db.doc(`profiles/${currentUser}`);
-      // const data = { name, description, image, admin: userRef, joinedUsers: [userRef] }
 
-      const res = await createChat({ name, description, image, admin: userRef, joinedUsers: [userRef] })
+      const res = await createChat({ name, description, image }, currentUser)
       if (res) {
         console.log({ res });
         history.push('/home');
