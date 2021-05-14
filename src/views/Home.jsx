@@ -20,6 +20,7 @@ const Home = () => {
   const fetchData = async () => {
     try {
       const res = await fetchChacts();
+      console.log(res);
       setChatsList(res);
     } catch (error) {
       return electron_methods.print(error);
