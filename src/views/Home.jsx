@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { chats, availibleChats, joinedChats } from '../recoil/chats/atom';
+import { chats } from '../recoil/chats/atom';
 import { user } from '../recoil/user/atom';
 
 import { fetchChacts } from '../js/api/chat';
@@ -13,8 +13,6 @@ import ViewTitle from '../components/shared/ViewTitle';
 
 const Home = () => {
   const [chatsList, setChatsList] = useRecoilState(chats);
-  const [joined, setJoined] = useRecoilState(joinedChats);
-  const [availible, setavailible] = useRecoilState(availibleChats);
   const currentUser = useRecoilValue(user)
 
   useEffect(() => {
@@ -23,15 +21,16 @@ const Home = () => {
 
   const fetchData = async () => {
     try {
-      const chats = await fetchChacts();
-      console.log({ chats });
+      const chats = await fetchChacts(currentUser);
+
       setChatsList(chats);
-      sortChat()
+
     } catch (error) {
       return console.log(error);
     }
   };
 
+  console.log('chats list', chatsList);
   return (
     <div className="row no-gutters fh">
       <JoinChats chats={[]} />

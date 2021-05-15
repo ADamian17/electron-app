@@ -1,7 +1,7 @@
 import db from '../firebase/firebase';
 import firebase from 'firebase/app';
 
-export const fetchChacts = async () => {
+export const fetchChacts = async (userId) => {
   try {
     const res = await db.collection('chats').get();
     const data = await res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -11,7 +11,17 @@ export const fetchChacts = async () => {
       chat.joinedUsers = chat.joinedUsers.map((user) => user.id);
     });
 
-    return data;
+    const sortedChats = data.reduce(
+      (accChat, chat) => {
+        accChat[
+          chat.joinedUsers.includes(userId) ? 'joined' : 'availible'
+        ].push(chat);
+        return accChat;
+      },
+      { joined: [], availible: [] }
+    );
+
+    return sortedChats;
   } catch (error) {
     return console.log(error);
   }
