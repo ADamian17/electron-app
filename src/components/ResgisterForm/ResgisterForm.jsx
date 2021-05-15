@@ -5,11 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { register } from '../../redux/auth/auth.actions';
 
-
 // import { register, onAuthChange } from '../../js/api/auth';
-
-import { useSetRecoilState } from 'recoil'
-import { user } from '../../recoil/user/atom';
 
 const RegisterForm = () => {
   const history = useHistory();
@@ -22,23 +18,12 @@ const RegisterForm = () => {
 
   const [err, setErr] = useState(null)
 
-  const setCurrentUser = useSetRecoilState(user);
-
   const handleSubmit = async (e) => {
     try {
       e.preventDefault()
       const data = { email, password, username, avatar }
       dispatch(register(data))
-
-      // onAuthChange(authUser => {
-      //   if (authUser) {
-      //     setCurrentUser(authUser.uid);
-      //     localStorage.setItem('uid', authUser.uid);
-      //     history.push('/home')
-      //   } else {
-      //     console.log('we are NOT authenticated')
-      //   }
-      // });
+      history.push('/home')
 
     } catch (error) {
       console.log({ error });

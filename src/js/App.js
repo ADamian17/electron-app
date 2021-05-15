@@ -1,6 +1,9 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect } from 'react';
 
 import { notification } from '../utils/funts';
+
+import { useDispatch } from 'react-redux';
+import { listenToAuthChanges } from '../redux/auth/auth.actions';
 
 // internal component
 import Routes from '../config/routes';
@@ -9,21 +12,23 @@ import Loading from '../components/shared/Loading';
 import useOnlineStatus from '../hooks/useOnlineStatus';
 
 const App = () => {
-  const onlineStatus = useOnlineStatus();
+  const dispatch = useDispatch();
+  // const onlineStatus = useOnlineStatus();
 
   useEffect(() => {
-    notification(onlineStatus);
-  }, [onlineStatus]);
+    dispatch(listenToAuthChanges());
+    // notification(onlineStatus);
+  }, [dispatch]);
 
-  if (!onlineStatus) {
-    return (
-      <Loading
-        message={
-          'Application has been disconnected from the internet. Please reconnect...'
-        }
-      />
-    );
-  }
+  // if (!onlineStatus) {
+  //   return (
+  //     <Loading
+  //       message={
+  //         'Application has been disconnected from the internet. Please reconnect...'
+  //       }
+  //     />
+  //   );
+  // }
 
   return (
     <div className="content-wrapper">

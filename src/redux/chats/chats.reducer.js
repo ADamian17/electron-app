@@ -2,8 +2,6 @@ import { ChatsActionTypes } from './chats.types';
 
 const INITIAL_STATE = {
   items: [],
-  joined: [],
-  availible: [],
 };
 
 const chatsReducer = (state = INITIAL_STATE, action) => {
