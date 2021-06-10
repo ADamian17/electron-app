@@ -1,12 +1,15 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 
-// middlewares imports
+// external middlewares
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
+// internal middlewares
+import { appMiddleware } from './middlewares/middlewares';
+
 import rootReducer from './root-reducer';
 
-let middlewares = [thunk, logger];
+let middlewares = [thunk, logger, appMiddleware];
 
 const composeEnhancers = compose;
 

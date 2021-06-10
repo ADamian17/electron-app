@@ -1,38 +1,35 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { login, getUserProfile } from '../../js/api/auth';
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from '../../redux/auth/auth.actions';
 
-import { useSetRecoilState } from 'recoil';
-import { user, profile } from '../../recoil/user/atom';
+import Loading from '../shared/Loading.js'
 
 const LoginForm = () => {
   const history = useHistory()
+  const dispatch = useDispatch()
+  const error = useSelector(({auth}) => auth.login.error);
+  const isChecking = useSelector(({auth}) => auth.login.isChecking);
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
-  const [err, setErr] = useState(null)
-
-  const setCurrentUser = useSetRecoilState(user)
-  const setProfile = useSetRecoilState(profile);
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault()
       const data = { email, password }
-      const res = await login(data)
-      const profileRes = await getUserProfile(res.uid)
+      dispatch(login(data))
 
-      setCurrentUser(res.uid)
-      setProfile(profileRes)
-      localStorage.setItem('uid', res.uid);
-      history.push('/home')
     } catch (error) {
       return setErr(error.message)
     }
   }
 
+  if (isChecking) {
+    return <Loading />
+  }
+  
   return (
     <form onSubmit={handleSubmit} className="centered-container-form">
       <div className="header">Welcome here!</div>
@@ -58,7 +55,7 @@ const LoginForm = () => {
             id="password"
             onChange={(e) => setPassword(e.target.value)} />
         </div>
-        {err && <div className="alert alert-danger small">{err}</div>}
+        {error && <div className="alert alert-danger small">{error.message}</div>}
         <button type="submit" className="btn btn-outline-primary">Login</button>
       </div>
     </form>

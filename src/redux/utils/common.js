@@ -1,5 +1,4 @@
-export const createErrorReducer =
-  (actionType) =>
+export const createErrorReducer = ( actionType ) => 
   (state = null, action) => {
     switch (action.type) {
       case `${actionType}_INIT`:
@@ -11,8 +10,7 @@ export const createErrorReducer =
     }
   };
 
-export const createIsFetchingReducer =
-  (actionType) =>
+export const createIsFetchingReducer = (actionType) =>
   (state = false, action) => {
     switch (action.type) {
       case `${actionType}_INIT`:

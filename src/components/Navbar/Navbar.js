@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -33,12 +33,24 @@ const Navbar = ({ canGoBack, view }) => {
         </div>
         <div className="chat-navbar-inner-right">
           {user && (
-            <button
-              onClick={handleLogout}
-              className="btn btn-outline-danger ml-3"
-            >
-              logout
-            </button>
+            <>
+              <img
+                className="avatar rounded-circle mr-2"
+                style={{
+                  width: '40px',
+                }}
+                src={user.avatar}
+                alt="avatar"
+              />
+              <span className="logged-in-user">Hi {user.username}</span>
+
+              <button
+                onClick={handleLogout}
+                className="btn btn-outline-danger ml-3"
+              >
+                logout
+              </button>
+            </>
           )}
         </div>
       </nav>
@@ -47,24 +59,3 @@ const Navbar = ({ canGoBack, view }) => {
 };
 
 export default Navbar;
-
-// {currentUser && (
-//   <>
-//     <img
-//       className="avatar rounded-circle mr-2"
-//       style={{
-//         width: '40px',
-//       }}
-//       src={userProfile.avatar}
-//       alt="avatar"
-//     />
-//     <span className="logged-in-user">Hi {userProfile.username}</span>
-
-//     <button
-//       onClick={handleLogout}
-//       className="btn btn-outline-danger ml-3"
-//     >
-//       logout
-//     </button>
-//   </>
-// )}

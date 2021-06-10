@@ -4,39 +4,40 @@ import { AuthActionTypes } from './auth.types';
 
 export const register = (formData) => async (dispatch) => {
   try {
-    // dispatch({ type: AuthActionTypes.AUTH_REGISTER_INIT });
+    dispatch({ type: AuthActionTypes.AUTH_REGISTER_INIT });
 
     await api.register(formData);
-
-    dispatch({ type: AuthActionTypes.AUTH_REGISTER_SUCCESS });
   } catch (error) {
     dispatch({ type: AuthActionTypes.AUTH_REGISTER_ERROR, error });
   }
 };
 
-// export const loginUser = (formData) => (dispatch) => {
-//   dispatch({ type: AuthActionTypes.AUTH_LOGIN_INIT });
-//   return api
-//     .login(formData)
-//     .then((user) =>
-//       dispatch({ type: AuthActionTypes.AUTH_LOGIN_SUCCESS, user })
-//     )
-//     .catch((error) => {
-//       dispatch({ type: AuthActionTypes.AUTH_LOGIN_ERROR, error });
-//     });
-// };
+export const login = (data) => async (dispatch) => {
+  try {
+    dispatch({ type: AuthActionTypes.AUTH_LOGIN_INIT });
+    return await api.login(data);
 
-export const logout = () => (dispatch) =>
-  api.logout().then((_) => {
+  } catch (error) {
+    dispatch({ type: AuthActionTypes.AUTH_LOGIN_ERROR, error });
+  }
+};
+
+export const logout = () => async (dispatch) => {
+  try {
+    await api.logout();
     dispatch({ type: AuthActionTypes.AUTH_LOGOUT_SUCCESS });
     // dispatch({ type: 'CHATS_FETCH_RESTART' });
-  });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const listenToAuthChanges = () => (dispatch) => {
   dispatch({ type: AuthActionTypes.AUTH_ON_INIT });
-  api.onAuthChange((authUser) => {
+  return api.onAuthChange( async (authUser) => {
     if (authUser) {
-      dispatch({ type: AuthActionTypes.AUTH_ON_SUCCESS, payload: authUser });
+      const profile = await api.getUserProfile(authUser.uid);
+      dispatch({ type: AuthActionTypes.AUTH_ON_SUCCESS, user: profile });
     } else {
       dispatch({ type: AuthActionTypes.AUTH_ON_ERROR });
     }

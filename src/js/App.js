@@ -1,34 +1,41 @@
 import React, { useEffect } from 'react';
 
-import { notification } from '../utils/funts';
-
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { listenToAuthChanges } from '../redux/auth/auth.actions';
+import { listenToConnectionChanges } from '../redux/app/app.actions';
 
 // internal component
 import Routes from '../config/routes';
 import Loading from '../components/shared/Loading';
 
-import useOnlineStatus from '../hooks/useOnlineStatus';
-
 const App = () => {
   const dispatch = useDispatch();
-  // const onlineStatus = useOnlineStatus();
+  const isChecking = useSelector(({auth}) => auth.isChecking );
+  const isOnline = useSelector(({app}) => app.isOnline);
 
   useEffect(() => {
-    dispatch(listenToAuthChanges());
-    // notification(onlineStatus);
+    const unsubFromAuth = dispatch(listenToAuthChanges());
+    const unsubFromConnection =  dispatch(listenToConnectionChanges())
+
+    return () => {
+      unsubFromAuth();
+      unsubFromConnection();
+    };
   }, [dispatch]);
 
-  // if (!onlineStatus) {
-  //   return (
-  //     <Loading
-  //       message={
-  //         'Application has been disconnected from the internet. Please reconnect...'
-  //       }
-  //     />
-  //   );
-  // }
+  if (!isOnline) {
+    return (
+      <Loading
+        message={
+          'Application has been disconnected from the internet. Please reconnect...'
+        }
+      />
+    );
+  }
+
+  if (isChecking) {
+    <Loading />
+  }
 
   return (
     <div className="content-wrapper">

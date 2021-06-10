@@ -3,10 +3,6 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 
-/* recoil hook to access the atom */
-import { useRecoilValue } from 'recoil';
-import { verifedUser } from '../recoil/user/selector';
-
 // internal component
 import Home from '../views/Home';
 import Welcome from '../views/Welcome';
@@ -15,7 +11,7 @@ import NewChat from '../views/Chat/New';
 import Setting from '../views/Setting';
 
 const Routes = () => {
-  // const user = useSelector(({ auth }) => auth.user);
+  const user = useSelector(({ auth }) => auth.user);
 
   const PrivateRoute = ({ Component, ...rest }) => {
     return (
@@ -32,13 +28,13 @@ const Routes = () => {
     <Switch>
       <Route exact path="/" component={Welcome} />
 
-      <Route path="/home" component={Home} />
+      <PrivateRoute path="/home" Component={Home} />
 
-      <PrivateRoute path="/chat/create" Component={NewChat} />
+      <PrivateRoute path="/chat/create" component={NewChat} />
 
-      <PrivateRoute path="/chat/:id" Component={Chat} />
+      <PrivateRoute path="/chat/:id" component={Chat} />
 
-      <PrivateRoute path="/settings" Component={Setting} />
+      <PrivateRoute path="/settings" component={Setting} />
     </Switch>
   );
 };

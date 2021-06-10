@@ -2,36 +2,37 @@ import React, { useState } from 'react';
 
 import { useHistory } from 'react-router-dom'
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../redux/auth/auth.actions';
 
-// import { register, onAuthChange } from '../../js/api/auth';
+import Loading from '../shared/Loading.js'
 
 const RegisterForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const error = useSelector(({auth}) => auth.register.error);
+  const isChecking = useSelector(({auth}) => auth.register.isChecking);
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
   const [avatar, setAvatar] = useState('')
 
-  const [err, setErr] = useState(null)
-
   const handleSubmit = async (e) => {
     try {
       e.preventDefault()
       const data = { email, password, username, avatar }
       dispatch(register(data))
-      history.push('/home')
 
     } catch (error) {
       console.log({ error });
       return setErr(error);
     }
-
   }
 
+  if (isChecking) {
+    return <Loading />
+  }
 
   return (
     <form onSubmit={handleSubmit} className="centered-container-form">
@@ -77,7 +78,7 @@ const RegisterForm = () => {
             id="password"
             onChange={(e) => setPassword(e.target.value)} />
         </div>
-        {err && <div className="alert alert-danger small">{err}</div>}
+        {error && <div className="alert alert-danger small">{error.message}</div>}
         <button type="submit" className="btn btn-outline-primary">Register</button>
       </div>
     </form>
