@@ -12,7 +12,8 @@ import ViewTitle from '../components/shared/ViewTitle';
 
 const Home = () => {
   const dispatch = useDispatch()
-  const chatsList = useSelector(state => state.chats.items);
+  const joined = useSelector(state => state.chats.joined);
+  const availible = useSelector(state => state.chats.availible);
 
   useEffect(() => {
     UtilNotification.setup();
@@ -21,10 +22,10 @@ const Home = () => {
 
   return (
     <div className="row no-gutters fh">
-      <JoinChats chats={chatsList} />
+      <JoinChats chats={joined} />
       <div className="col-9 fh">
         <ViewTitle title="Choose your channel" />
-        <AvailalibleChats chats={chatsList} />
+        <AvailalibleChats chats={availible} />
       </div>
     </div>
   );

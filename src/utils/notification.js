@@ -1,12 +1,3 @@
-
-
-// export const Notification = (status) => {
-//   setup();
-//   if (!status) {
-//     return show({ title: 'Connection Status', body: 'Office' });
-//   }
-// };
-
 export default class UtilNotification {
 
   static setup () {

@@ -15,7 +15,6 @@ const Welcome = () => {
 
 
   if (user) {
-    console.log({user});
     return <Redirect to="/home" />
   }
 

@@ -1,4 +1,5 @@
 import db from '../firebase/firebase';
+import firebase from 'firebase/app';
 
 export const fetchChats = async () => {
   try {
@@ -11,11 +12,25 @@ export const fetchChats = async () => {
 };
 
 export const createChat = async (data) => {
-  const newChat = { ...data };
   try {
-    const res = await db.collection('chats').add(newChat);
-    return res;
+    const res = await db.collection('chats').add(data);
+    return res.id;
   } catch (error) {
     return console.log(error);
   }
 };
+
+
+export const joinChat = async (userId, chatId) => {
+  try {
+    const userRef = db.doc(`profiles/${userId}`);
+    const chatRef = db.doc(`chats/${chatId}`);
+
+    await userRef.update({chats: firebase.firestore.FieldValue.arrayUnion(chatRef)});
+    await chatRef.update({joinedUser: firebase.firestore.FieldValue.arrayUnion(userRef)});
+
+    return 'success';
+  } catch (error) {
+    return console.log(error);
+  };
+}; 

@@ -30,11 +30,11 @@ const Routes = () => {
 
       <PrivateRoute path="/home" Component={Home} />
 
-      <PrivateRoute path="/chat/create" component={NewChat} />
+      <PrivateRoute path="/chat/create" Component={NewChat} />
 
-      <PrivateRoute path="/chat/:id" component={Chat} />
+      <PrivateRoute path="/chat/:id" Component={Chat} />
 
-      <PrivateRoute path="/settings" component={Setting} />
+      <PrivateRoute path="/settings" Component={Setting} />
     </Switch>
   );
 };
