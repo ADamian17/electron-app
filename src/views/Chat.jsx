@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+
+import { useDispatch } from 'react-redux';
+import { subscribeToChat } from '../redux/chats/chats.actions';
 
 /* Internal modules */
 import { withBaseLayout } from '../layout/base';
@@ -10,6 +13,14 @@ import ChatMessageList from '../components/ChatMessageList/ChatMessageList';
 const Chat = () => {
   const { id } = useParams()
   const title = `Joined Chat ${id}`
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const unsubFromChat = dispatch(subscribeToChat(id))
+
+    return () => { unsubFromChat() }
+
+  }, []);
 
   return (
     <div className="row no-gutters fh">

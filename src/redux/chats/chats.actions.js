@@ -69,6 +69,14 @@ export const joinChat = (chat, uid) => async (dispatch) => {
   }
 };
 
+export const subscribeToChat = (chatId) => (dispatch) =>
+  api.subscribeToChats(chatId, (chat) => {
+    dispatch({
+      type: ChatsActionTypes.CHAT_SET_ACTIVE_CHAT,
+      chat,
+    });
+  });
+
 //https://cdn.evilmartians.com/front/posts/optimizing-react-virtual-dom-explained/cover-a1d5b40.png
 
 // https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png
