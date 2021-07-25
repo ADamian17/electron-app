@@ -6,18 +6,20 @@ import db from '../../js/firebase/firebase';
 export const fetchChats = () => async (dispatch, getState) => {
   try {
     const { user } = getState().auth;
-    console.log({ user });
 
     dispatch({ type: ChatsActionTypes.CHATS_FETCH_INIT });
     const chats = await api.fetchChats();
     chats.forEach(
-      (chat) => (chat.joinedUser = chat.joinedUser.map((user) => user.id))
+      (chat) => {
+        chat.joinedUser = chat.joinedUser.map((usr) => usr.id);
+        return chat.joinedUser;
+      },
     );
 
     const sortedChats = chats.reduce(
       (acc, chat) => {
         acc[chat.joinedUser.includes(user.uid) ? 'joined' : 'availible'].push(
-          chat
+          chat,
         );
 
         return acc;
@@ -25,7 +27,7 @@ export const fetchChats = () => async (dispatch, getState) => {
       {
         joined: [],
         availible: [],
-      }
+      },
     );
 
     dispatch({
@@ -63,20 +65,42 @@ export const createChat = (data, userId) => async (dispatch) => {
 export const joinChat = (chat, uid) => async (dispatch) => {
   try {
     await api.joinChat(uid, chat.id);
-    dispatch({ type: ChatsActionTypes.CHATS_JOIN_SUCCESS, chat });
+    return dispatch({ type: ChatsActionTypes.CHATS_JOIN_SUCCESS, chat });
   } catch (error) {
     return console.log(error);
   }
 };
 
-export const subscribeToChat = (chatId) => (dispatch) =>
-  api.subscribeToChats(chatId, (chat) => {
-    dispatch({
-      type: ChatsActionTypes.CHAT_SET_ACTIVE_CHAT,
-      chat,
-    });
-  });
+export const subscribeToChat = (chatId) => (
+  dispatch,
+) => api.subscribeToChats(chatId, async (chat) => {
+  const joinedUsers = await Promise.all(chat.joinedUser.map(async (userRef) => {
+    try {
+      const userSnapshot = await userRef.get();
+      // this is to get the user information when we are refering the user in or firebase model
 
-//https://cdn.evilmartians.com/front/posts/optimizing-react-virtual-dom-explained/cover-a1d5b40.png
+      return userSnapshot.data();
+    } catch (error) {
+      return console.log(error);
+    }
+  }));
+
+  chat.joinedUser = joinedUsers;
+
+  dispatch({
+    type: ChatsActionTypes.CHAT_SET_ACTIVE_CHAT,
+    chat,
+  });
+});
+
+export const subscribeToProfile = (uid, chatId) => (dispatch) => api.subscribeToProfile(uid, (user) => {
+  dispatch({
+    type: ChatsActionTypes.CHAT_UPDATE_USER_STATE,
+    user,
+    chatId,
+  });
+});
+
+// https://cdn.evilmartians.com/front/posts/optimizing-react-virtual-dom-explained/cover-a1d5b40.png
 
 // https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png

@@ -1,5 +1,5 @@
-import db from '../firebase/firebase';
 import firebase from 'firebase/app';
+import db from '../firebase/firebase';
 
 export const fetchChats = async () => {
   try {
@@ -38,12 +38,16 @@ export const joinChat = async (userId, chatId) => {
   }
 };
 
-export const subscribeToChats = (chatId, onSubscribe) =>
-  db
-    .collection('chats')
-    .doc(chatId)
-    .onSnapshot((snapshot) => {
-      const chat = { id: snapshot.id, ...snapshot.data() };
+export const subscribeToChats = (chatId, onSubscribe) => db
+  .collection('chats')
+  .doc(chatId)
+  .onSnapshot((snapshot) => {
+    const chat = { id: snapshot.id, ...snapshot.data() };
 
-      return onSubscribe(chat);
-    });
+    return onSubscribe(chat);
+  });
+
+export const subscribeToProfile = (uid, onSubscribe) => db
+  .collection('profiles')
+  .doc(uid)
+  .onSnapshot((snapshot) => onSubscribe(snapshot.data()));
