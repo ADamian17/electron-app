@@ -9,12 +9,13 @@ import { withBaseLayout } from '../layout/base';
 import ChatUsersList from '../components/ChatUsersList/ChatUsersList';
 import ViewTitle from '../components/shared/ViewTitle';
 import ChatMessageList from '../components/ChatMessageList/ChatMessageList';
+import Messanger from '../components/Messanger/Messanger';
 import Loading from '../components/shared/Loading';
 
 const Chat = () => {
   const { id } = useParams();
-  const peopleWatchers = useRef({});
 
+  const peopleWatchers = useRef({});
   const dispatch = useDispatch();
   const activeChat = useSelector(({ chats }) => chats.activeChats[id]);
   const title = `Joined Chat ${activeChat?.name}`;
@@ -52,6 +53,8 @@ const Chat = () => {
     return <Loading message="loading chat" />;
   }
 
+  const sendMessage = (message) => alert(JSON.stringify(message));
+
   return (
     <div className="row no-gutters fh">
       <div className="col-3 fh">
@@ -60,6 +63,7 @@ const Chat = () => {
       <div className="col-9 fh">
         <ViewTitle title={title} />
         <ChatMessageList />
+        <Messanger onSubmit={sendMessage} />
       </div>
     </div>
   );
