@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
-import { useRecoilState } from 'recoil';
-import { chats } from '../recoil/chats/atom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchChacts } from '../js/api/chat';
+import { fetchChats } from '../redux/chats/chats.actions';
+import UtilNotification from '../utils/notification';
 
 import { withBaseLayout } from '../layout/base';
 import AvailalibleChats from '../components/AvailalibleChats/AvailalibleChats';
@@ -11,28 +11,21 @@ import JoinChats from '../components/JoinChats/JoinChats';
 import ViewTitle from '../components/shared/ViewTitle';
 
 const Home = () => {
-  const [chatsList, setChatsList] = useRecoilState(chats);
+  const dispatch = useDispatch();
+  const joined = useSelector((state) => state.chats.joined);
+  const availible = useSelector((state) => state.chats.availible);
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const res = await fetchChacts();
-      console.log(res);
-      setChatsList(res);
-    } catch (error) {
-      return electron_methods.print(error);
-    }
-  };
+    UtilNotification.setup();
+    dispatch(fetchChats());
+  }, [dispatch]);
 
   return (
     <div className="row no-gutters fh">
-      <JoinChats chats={chatsList} />
+      <JoinChats chats={joined} />
       <div className="col-9 fh">
         <ViewTitle title="Choose your channel" />
-        <AvailalibleChats chats={chatsList} />
+        <AvailalibleChats chats={availible} />
       </div>
     </div>
   );

@@ -1,9 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-/* recoil hook to access the atom */
-import { useRecoilValue } from 'recoil';
-import { verifedUser } from '../recoil/user/selector';
+import { useSelector } from 'react-redux';
 
 // internal component
 import Home from '../views/Home';
@@ -13,14 +11,14 @@ import NewChat from '../views/Chat/New';
 import Setting from '../views/Setting';
 
 const Routes = () => {
-  const isVerify = useRecoilValue(verifedUser);
+  const user = useSelector(({ auth }) => auth.user);
 
   const PrivateRoute = ({ Component, ...rest }) => {
     return (
       <Route
         {...rest}
         render={(props) =>
-          isVerify ? <Component {...props} /> : <Redirect to="/" />
+          user ? <Component {...props} /> : <Redirect to="/" />
         }
       />
     );

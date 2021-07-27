@@ -1,0 +1,3 @@
+export const ConnectionTypes = {
+  CONNECTION_USER_STATUS_CHANGE: 'CONNECTION_USER_STATUS_CHANGE',
+};

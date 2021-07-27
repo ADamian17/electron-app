@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { useRecoilValue } from 'recoil';
-import { user } from '../../recoil/user/atom';
+import { useSelector, useDispatch } from 'react-redux';
+import { createChat } from '../../redux/chats/chats.actions';
+
 
 import { withBaseLayout } from '../../layout/base';
-// import { createChat } from '../../js/api/chat';
 
 import db from '../../js/firebase/firebase';
 
 const NewChat = () => {
   const history = useHistory()
-  const currentUser = useRecoilValue(user)
+  const dispatch = useDispatch();
+  const user = useSelector(({auth}) => auth.user ) 
 
   const [name, setName] = useState('')
   const [image, setImage] = useState('')
@@ -19,19 +20,14 @@ const NewChat = () => {
 
   const [err, setErr] = useState(null)
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     try {
       e.preventDefault()
-      const userRef = db.doc(`profiles/${currentUser}`);
-      // const data = { name, description, image, admin: userRef, joinedUsers: [userRef] }
 
-      const res = await createChat({ name, description, image, admin: userRef, joinedUsers: [userRef] })
-      if (res) {
-        console.log({ res });
-        history.push('/home');
-      }
+      dispatch(createChat({ name, description, image }, user.uid ))
+      history.push('/home');
+      
     } catch (error) {
-      console.log({ error });
       return setErr(error);
     }
   }

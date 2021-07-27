@@ -1,36 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
-import { useRecoilValue, useResetRecoilState, useRecoilState } from 'recoil';
-import { user, profile } from '../../recoil/user/atom';
-
-import { logout, getUserProfile } from '../../js/api/auth';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../../redux/auth/auth.actions';
 
 import BackBtn from '../shared/BackBtn';
 
 const Navbar = ({ canGoBack, view }) => {
   const history = useHistory();
-
-  const currentUser = useRecoilValue(user);
-  const resestUser = useResetRecoilState(user);
-  const resetProfile = useResetRecoilState(profile);
-  const [userProfile, setUserProfile] = useRecoilState(profile);
-
-  useEffect(() => {
-    fetchProfile();
-  }, []);
-
-  const fetchProfile = async () => {
-    const res = await getUserProfile(currentUser);
-    setUserProfile(res);
-  };
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
 
   const handleLogout = async () => {
     try {
-      localStorage.clear();
-      resetProfile();
-      resestUser();
-      await logout();
+      dispatch(logout());
       history.push('/');
     } catch (error) {
       return console.log(error);
@@ -49,17 +32,17 @@ const Navbar = ({ canGoBack, view }) => {
           )}
         </div>
         <div className="chat-navbar-inner-right">
-          {userProfile && (
+          {user && (
             <>
               <img
                 className="avatar rounded-circle mr-2"
                 style={{
                   width: '40px',
                 }}
-                src={userProfile.avatar}
+                src={user.avatar}
                 alt="avatar"
               />
-              <span className="logged-in-user">Hi {userProfile.username}</span>
+              <span className="logged-in-user">Hi {user.username}</span>
 
               <button
                 onClick={handleLogout}
