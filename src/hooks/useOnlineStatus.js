@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-import { useRecoilState } from 'recoil';
-import { onlineStatus } from '../recoil/user/atom';
+import { useSelector } from 'react-redux';
 
 const useOnlineStatus = () => {
-  const [status, setStatus] = useRecoilState(onlineStatus);
+  const [status, setStatus] = useSelector(({app}) => app.isOnline );
 
   const handleOnlineStatus = () => {
     return setStatus(navigator.onLine);
