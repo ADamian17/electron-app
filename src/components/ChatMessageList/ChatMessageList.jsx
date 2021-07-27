@@ -3,7 +3,6 @@ import React from 'react';
 import Message from './Message/Message';
 
 const ChatMessageList = ({ messages = [] }) => {
-  console.log({ messages });
   const messageList = messages.map((message) => <Message key={message.id} message={message} />);
   return (
     messages && (
