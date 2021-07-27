@@ -1,12 +1,7 @@
 import firebase from 'firebase/app';
 import db from '../firebase/firebase';
-import firebase from 'firebase/app';
 
-<<<<<<< HEAD
-export const fetchChacts = async (userId) => {
-=======
 export const fetchChats = async () => {
->>>>>>> faaee3010ebb6749eb9a63f8114f16cdc1498803
   try {
     const res = await db.collection('chats').get();
     const data = await res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -23,7 +18,7 @@ export const fetchChats = async () => {
         ].push(chat);
         return accChat;
       },
-      { joined: [], availible: [] }
+      { joined: [], availible: [] },
     );
 
     return sortedChats;
@@ -32,43 +27,15 @@ export const fetchChats = async () => {
   }
 };
 
-<<<<<<< HEAD
-export const joinChat = async (userId, chatId) => {
-  const userRef = db.doc(`profiles/${userId}`);
-  const chatRef = db.doc(`chats/${chatId}`);
-
-  await userRef.update({
-    chats: firebase.firestore.FieldValue.arrayUnion(chatRef),
-  });
-
-  await chatRef.update({
-    joinedUsers: firebase.firestore.FieldValue.arrayUnion(userRef),
-  });
-};
-
-export const createChat = async (data, userId) => {
-  try {
-    const userRef = db.doc(`profiles/${userId}`);
-    const newChatData = { admin: userRef, ...data };
-
-    const newChat = await db.collection('chats').add(newChatData);
-    await joinChat(userId, newChat.id);
-
-    return newChat.id;
-=======
 export const createChat = async (data) => {
   try {
     const res = await db.collection('chats').add(data);
     return res.id;
->>>>>>> faaee3010ebb6749eb9a63f8114f16cdc1498803
   } catch (error) {
     return console.log(error);
   }
 };
 
-<<<<<<< HEAD
-// https://cdn.evilmartians.com/front/posts/optimizing-react-virtual-dom-explained/cover-a1d5b40.png
-=======
 export const joinChat = async (userId, chatId) => {
   try {
     const userRef = db.doc(`profiles/${userId}`);
@@ -115,4 +82,3 @@ export const subcribeToMessages = (chatId, onSubcribe) => db
   .doc(chatId)
   .collection('messages')
   .onSnapshot((snapsthot) => onSubcribe(snapsthot.docChanges()));
->>>>>>> faaee3010ebb6749eb9a63f8114f16cdc1498803

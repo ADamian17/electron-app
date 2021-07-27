@@ -4,45 +4,31 @@ import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { createChat } from '../../redux/chats/chats.actions';
 
-
 import { withBaseLayout } from '../../layout/base';
-<<<<<<< HEAD
-import { createChat } from '../../js/api/chat';
-=======
->>>>>>> faaee3010ebb6749eb9a63f8114f16cdc1498803
 
 import db from '../../js/firebase/firebase';
 
 const NewChat = () => {
-  const history = useHistory()
+  const history = useHistory();
   const dispatch = useDispatch();
-  const user = useSelector(({auth}) => auth.user ) 
+  const user = useSelector(({ auth }) => auth.user);
 
-  const [name, setName] = useState('')
-  const [image, setImage] = useState('')
-  const [description, setDescription] = useState('')
+  const [name, setName] = useState('');
+  const [image, setImage] = useState('');
+  const [description, setDescription] = useState('');
 
-  const [err, setErr] = useState(null)
+  const [err, setErr] = useState(null);
 
   const handleSubmit = (e) => {
     try {
-      e.preventDefault()
+      e.preventDefault();
 
-<<<<<<< HEAD
-      const res = await createChat({ name, description, image }, currentUser)
-      if (res) {
-        console.log({ res });
-        history.push('/home');
-      }
-=======
-      dispatch(createChat({ name, description, image }, user.uid ))
+      dispatch(createChat({ name, description, image }, user.uid));
       history.push('/home');
-      
->>>>>>> faaee3010ebb6749eb9a63f8114f16cdc1498803
     } catch (error) {
       return setErr(error);
     }
-  }
+  };
 
   return (
     <div className="centered-view">
@@ -60,7 +46,8 @@ const NewChat = () => {
                 id="name"
                 aria-describedby="name"
                 placeholder="e.g cool chat"
-                onChange={(e) => setName(e.target.value)} />
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
 
             {/* r2 */}
@@ -73,7 +60,8 @@ const NewChat = () => {
                 id="description"
                 cols="30"
                 rows="5"
-                onChange={(e) => setDescription(e.target.value)}></textarea>
+                onChange={(e) => setDescription(e.target.value)}
+              />
             </div>
 
             {/* r3 */}
@@ -86,7 +74,8 @@ const NewChat = () => {
                 id="image"
                 aria-describedby="image"
                 placeholder="image url"
-                onChange={(e) => setImage(e.target.value)} />
+                onChange={(e) => setImage(e.target.value)}
+              />
             </div>
 
             {err && <div className="alert alert-danger small">{err}</div>}
@@ -95,7 +84,7 @@ const NewChat = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default withBaseLayout(NewChat, { canGoBack: true });
