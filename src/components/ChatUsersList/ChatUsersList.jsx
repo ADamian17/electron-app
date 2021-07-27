@@ -2,8 +2,7 @@ import React from 'react';
 import ChatUserItem from './ChatUserItem/ChatUserItem';
 
 const ChatUsersList = ({ users }) => {
-  console.log({users});
-  const usersList =  users && users.map((user) => <ChatUserItem key={user.uid} user={user} /> );
+  const usersList = users && users.map((user) => <ChatUserItem key={user.uid} user={user} />);
 
   return (
     <div className="list-container">
@@ -18,7 +17,7 @@ const ChatUsersList = ({ users }) => {
         }
       </ul>
     </div>
-  )
-}
+  );
+};
 
 export default ChatUsersList;

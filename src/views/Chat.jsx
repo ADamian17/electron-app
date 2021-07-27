@@ -2,7 +2,12 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { subscribeToChat, subscribeToProfile } from '../redux/chats/chats.actions';
+import {
+  subscribeToChat,
+  subscribeToProfile,
+  sendChatMessage,
+  subscribeToMessages,
+} from '../redux/chats/chats.actions';
 
 /* Internal modules */
 import { withBaseLayout } from '../layout/base';
@@ -18,6 +23,8 @@ const Chat = () => {
   const peopleWatchers = useRef({});
   const dispatch = useDispatch();
   const activeChat = useSelector(({ chats }) => chats.activeChats[id]);
+  const messages = useSelector(({ chats }) => chats.messages[id]);
+
   const title = `Joined Chat ${activeChat?.name}`;
   // if name exist will return the name else undefine
   const joinedUsers = activeChat?.joinedUser;
@@ -28,6 +35,7 @@ const Chat = () => {
 
   useEffect(() => {
     const unsubFromChat = dispatch(subscribeToChat(id));
+    dispatch(subscribeToMessages(id));
 
     return () => {
       unsubFromChat();
@@ -53,17 +61,21 @@ const Chat = () => {
     return <Loading message="loading chat" />;
   }
 
-  const sendMessage = (message) => alert(JSON.stringify(message));
+  const sendMessage = (message) => dispatch(sendChatMessage(message, id));
 
   return (
     <div className="row no-gutters fh">
       <div className="col-3 fh">
         <ChatUsersList users={activeChat?.joinedUser} />
       </div>
+
       <div className="col-9 fh">
         <ViewTitle title={title} />
-        <ChatMessageList />
+
+        <ChatMessageList messages={messages} />
+
         <Messanger onSubmit={sendMessage} />
+
       </div>
     </div>
   );

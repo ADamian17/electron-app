@@ -101,6 +101,33 @@ export const subscribeToProfile = (uid, chatId) => (dispatch) => api.subscribeTo
   });
 });
 
+export const sendChatMessage = (message, chatId) => async (dispatch, getState) => {
+  try {
+    const { user } = getState().auth;
+    const userRef = db.doc(`/profiles/${user.uid}`);
+    const newMessage = { ...message };
+    newMessage.author = userRef;
+
+    await api.sendChatMessage(newMessage, chatId);
+    dispatch({ type: ChatsActionTypes.CHAT_MESSAGE_SENT });
+
+    return;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const subscribeToMessages = (chatId) => (dispatch) => api.subcribeToMessages(chatId, (changes) => {
+  const messages = changes.map((change) => {
+    let data;
+    if (change.type === 'added') data = { id: change.doc.id, ...change.doc.data() };
+
+    return data;
+  });
+
+  dispatch({ type: ChatsActionTypes.CHAT_SET_MESSAGES, messages, chatId });
+  return messages;
+});
 // https://cdn.evilmartians.com/front/posts/optimizing-react-virtual-dom-explained/cover-a1d5b40.png
 
 // https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png

@@ -49,8 +49,16 @@ const activeChats = createReducer({}, {
   },
 });
 
+const messages = createReducer({}, {
+  [ChatsActionTypes.CHAT_SET_MESSAGES]: (state, action) => {
+    const prevMessages = state[action.chatId] || [];
+    state[action.chatId] = [...prevMessages, ...action.messages];
+  },
+});
+
 export default combineReducers({
   availible,
   joined,
   activeChats,
+  messages,
 });

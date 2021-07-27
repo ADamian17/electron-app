@@ -11,7 +11,6 @@ const getOnlineStatus = (isOnline) => ({
 export const setUserOnlineStatus = (uid, isOnline) => {
   const userRef = db.doc(`/profiles/${uid}`);
   const status = getOnlineStatus(isOnline);
-  console.log({ status });
   return userRef.update(status);
 };
 
