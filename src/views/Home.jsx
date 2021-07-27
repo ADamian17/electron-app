@@ -20,7 +20,6 @@ const Home = () => {
     dispatch(fetchChats());
   }, [dispatch]);
 
-  console.log('chats list', chatsList);
   return (
     <div className="row no-gutters fh">
       <JoinChats chats={joined} />

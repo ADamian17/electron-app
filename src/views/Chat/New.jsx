@@ -19,6 +19,7 @@ const NewChat = () => {
 
   const [err, setErr] = useState(null);
 
+  // eslint-disable-next-line consistent-return
   const handleSubmit = (e) => {
     try {
       e.preventDefault();

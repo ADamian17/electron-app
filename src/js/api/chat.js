@@ -5,23 +5,7 @@ export const fetchChats = async () => {
   try {
     const res = await db.collection('chats').get();
     const data = await res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-
-    data.forEach((chat) => {
-      chat.admin = chat.admin.id;
-      chat.joinedUsers = chat.joinedUsers.map((user) => user.id);
-    });
-
-    const sortedChats = data.reduce(
-      (accChat, chat) => {
-        accChat[
-          chat.joinedUsers.includes(userId) ? 'joined' : 'availible'
-        ].push(chat);
-        return accChat;
-      },
-      { joined: [], availible: [] },
-    );
-
-    return sortedChats;
+    return data;
   } catch (error) {
     return console.log(error);
   }
