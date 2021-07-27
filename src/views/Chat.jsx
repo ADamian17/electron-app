@@ -7,6 +7,7 @@ import {
   subscribeToProfile,
   sendChatMessage,
   subscribeToMessages,
+  registerMessageSubscribtion,
 } from '../redux/chats/chats.actions';
 
 /* Internal modules */
@@ -24,6 +25,7 @@ const Chat = () => {
   const dispatch = useDispatch();
   const activeChat = useSelector(({ chats }) => chats.activeChats[id]);
   const messages = useSelector(({ chats }) => chats.messages[id]);
+  const messagesSub = useSelector(({ chats }) => chats.messagesSub[id]);
 
   const title = `Joined Chat ${activeChat?.name}`;
   // if name exist will return the name else undefine
@@ -35,7 +37,12 @@ const Chat = () => {
 
   useEffect(() => {
     const unsubFromChat = dispatch(subscribeToChat(id));
-    dispatch(subscribeToMessages(id));
+
+    if (!messagesSub) {
+      // register subscribtion
+      const unsubFromMessages = dispatch(subscribeToMessages(id));
+      dispatch(registerMessageSubscribtion(id, unsubFromMessages));
+    }
 
     return () => {
       unsubFromChat();

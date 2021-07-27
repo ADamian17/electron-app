@@ -56,9 +56,22 @@ const messages = createReducer({}, {
   },
 });
 
+const messagesSub = (state = {}, action) => {
+  switch (action.type) {
+  case ChatsActionTypes.CHAT_REGISTER_MESSAGES_SUB:
+    return {
+      ...state,
+      [action.chatId]: action.sub,
+    };
+  default:
+    return state;
+  }
+};
+
 export default combineReducers({
   availible,
   joined,
   activeChats,
   messages,
+  messagesSub,
 });
