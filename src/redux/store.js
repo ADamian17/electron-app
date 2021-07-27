@@ -9,13 +9,13 @@ import { appMiddleware } from './middlewares/middlewares';
 
 import rootReducer from './root-reducer';
 
-let middlewares = [thunk, logger, appMiddleware];
+const middlewares = [thunk, logger, appMiddleware];
 
 const composeEnhancers = compose;
 
 const store = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(...middlewares))
+  composeEnhancers(applyMiddleware(...middlewares)),
 );
 
 export default store;

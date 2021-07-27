@@ -1,6 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
+import { formatTime } from '../../../utils/timestamp';
+
 const Message = ({ message }) => {
   const user = useSelector(({ auth }) => auth.user);
   const isAuthor = `chat-${user.uid === message.author.uid ? 'right' : 'left'}`;
@@ -20,7 +22,7 @@ const Message = ({ message }) => {
       <div className="chat-text-wrapper">
         <span className="chat-text">{message.content}</span>
         <span className="chat-spacer" />
-        <div className="chat-hour">{message.timestamp}</div>
+        <div className="chat-hour">{formatTime(message.timestamp)}</div>
       </div>
     </li>
   );

@@ -22,6 +22,7 @@ const Chat = () => {
   const { id } = useParams();
 
   const peopleWatchers = useRef({});
+  const messageList = useRef();
   const dispatch = useDispatch();
   const activeChat = useSelector(({ chats }) => chats.activeChats[id]);
   const messages = useSelector(({ chats }) => chats.messages[id]);
@@ -68,7 +69,11 @@ const Chat = () => {
     return <Loading message="loading chat" />;
   }
 
-  const sendMessage = (message) => dispatch(sendChatMessage(message, id));
+  const sendMessage = async (message) => {
+    await dispatch(sendChatMessage(message, id));
+
+    messageList.current.scrollIntoView(false);
+  };
 
   return (
     <div className="row no-gutters fh">
@@ -79,7 +84,7 @@ const Chat = () => {
       <div className="col-9 fh">
         <ViewTitle title={title} />
 
-        <ChatMessageList messages={messages} />
+        <ChatMessageList innerRef={messageList} messages={messages} />
 
         <Messanger onSubmit={sendMessage} />
 

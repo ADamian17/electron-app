@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchChats } from '../redux/chats/chats.actions';
 import UtilNotification from '../utils/notification';
@@ -11,9 +11,9 @@ import JoinChats from '../components/JoinChats/JoinChats';
 import ViewTitle from '../components/shared/ViewTitle';
 
 const Home = () => {
-  const dispatch = useDispatch()
-  const joined = useSelector(state => state.chats.joined);
-  const availible = useSelector(state => state.chats.availible);
+  const dispatch = useDispatch();
+  const joined = useSelector((state) => state.chats.joined);
+  const availible = useSelector((state) => state.chats.availible);
 
   useEffect(() => {
     UtilNotification.setup();

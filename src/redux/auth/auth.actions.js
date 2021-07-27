@@ -13,6 +13,7 @@ export const register = (formData) => async (dispatch) => {
   }
 };
 
+// eslint-disable-next-line consistent-return
 export const login = (data) => async (dispatch) => {
   try {
     dispatch({ type: AuthActionTypes.AUTH_LOGIN_INIT });
