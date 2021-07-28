@@ -1,0 +1,4 @@
+export const SettingTypes = {
+  SETTING_UPDATE: 'SETTING_UPDATE',
+  SETTING_INITIAL_LOAD: 'SETTING_INITIAL_LOAD',
+};

@@ -43,6 +43,14 @@ html, body {
     background-color: $gray-900;
     color: white;
 
+    .card-body {
+      color: #3a3b45
+    }
+
+    .items .item.active-item, .item:hover {
+      background-color: #181818;
+    }
+
     .chat-container li .chat-text-wrapper {
       background: #4d4d4d;
     }

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listenToAuthChanges } from '../redux/auth/auth.actions';
 import { listenToConnectionChanges } from '../redux/app/app.actions';
 import { checkUserConnection } from '../redux/connection/connection.actions';
+import { loadInitialSettings } from '../redux/setting/setting.actions';
 
 // internal component
 import Routes from '../config/routes';
@@ -15,9 +16,12 @@ const App = () => {
   const isOnline = useSelector(({ app }) => app.isOnline);
   const user = useSelector(({ auth }) => auth.user);
 
+  const { isDarkTheme } = useSelector(({ settings }) => settings);
+
   useEffect(() => {
     const unsubFromAuth = dispatch(listenToAuthChanges());
     const unsubFromConnection = dispatch(listenToConnectionChanges());
+    dispatch(loadInitialSettings());
 
     return () => {
       unsubFromAuth();
@@ -49,7 +53,7 @@ const App = () => {
   }
 
   return (
-    <div className="content-wrapper">
+    <div className={`content-wrapper ${isDarkTheme ? 'dark' : 'ligth'}`}>
       <Routes />
     </div>
   );
