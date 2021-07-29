@@ -24,7 +24,6 @@ exports.createTemplate = (app) => [
           // on reload, start fresh and close any old
           // open secondary windows
           if (focusedWindow.id === 1) {
-            // console.log('in FOCUS!');
             // eslint-disable-next-line global-require
             const { BrowserWindow } = require('electron');
             BrowserWindow.getAllWindows().forEach((win) => {
