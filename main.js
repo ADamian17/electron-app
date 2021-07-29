@@ -1,5 +1,5 @@
 const {
-  app, BrowserWindow, Notification, ipcMain,
+  app, BrowserWindow, Notification, ipcMain, Menu,
 } = require('electron');
 const path = require('path');
 
@@ -29,7 +29,15 @@ if (isDev) {
   });
 }
 
-app.whenReady().then(createWindow);
+app.whenReady()
+  .then(() => {
+    // eslint-disable-next-line global-require
+    const template = require('./utils/Menu').createTemplate(app);
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
+
+    createWindow();
+  });
 
 ipcMain.on('notify', (e, message) => {
   new Notification({

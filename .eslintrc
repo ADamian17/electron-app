@@ -18,6 +18,8 @@
         "react"
     ],
     "rules": {
+        "global-require": "off",
+        "no-undef": "off",
         "indent": ["error", 2],
         "max-len": ["error", 135],
         "no-console": "off",
