@@ -8,12 +8,66 @@
     "watch:webpack": "webpack --config webpack.common.js --watch",
     "electron": "electron .",
     "start": "npm-run-all --parallel electron watch:webpack",
-    "build": "webpack --config webpack.production.js"
-
+    "build": "webpack --config webpack.production.js",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "make:linux": "electron-builder --linux",
+    "make:macOS": "electron-builder --mac",
+    "make:win": "electron-builder --win --x64"
+  },
+  "build": {
+    "productName": "Chat App",
+    "appId": "com.jerga.chatapp",
+    "files": [
+      "build/**/*",
+      "assets/**/*",
+      "utils/**/*",
+      "index.html",
+      "splash.html",
+      "splash.css",
+      "main.js",
+      "preload.js"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "assets/images/main512x512.png",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 400,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "icon": "assets/images/main512x512.png",
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "rpm",
+        "AppImage"
+      ],
+      "category": "Development"
+    }
   },
   "devDependencies": {
     "@babel/core": "^7.14.0",
     "dotenv-webpack": "^7.0.2",
+    "electron": "^13.1.7",
+    "electron-builder": "^22.11.7",
     "electron-devtools-installer": "^3.2.0",
     "eslint": "^7.31.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -32,7 +86,6 @@
     "babel-loader": "^8.2.2",
     "bootstrap": "4.5.2",
     "css-loader": "^5.2.4",
-    "electron": "^13.1.7",
     "electron-reload": "^2.0.0-alpha.1",
     "firebase": "^8.5.0",
     "moment": "^2.29.1",

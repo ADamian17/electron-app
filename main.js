@@ -1,5 +1,6 @@
 const {
   app, BrowserWindow, Notification, ipcMain, Menu, Tray,
+// eslint-disable-next-line import/no-extraneous-dependencies
 } = require('electron');
 const path = require('path');
 const isDev = !app.isPackaged;
