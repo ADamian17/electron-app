@@ -100,6 +100,7 @@
     "redux-thunk": "^2.3.0",
     "sass-loader": "^11.0.1",
     "style-loader": "^2.0.0",
+    "update-electron-app": "^2.0.1",
     "webpack": "^5.36.2",
     "webpack-cli": "^4.7.0"
   }
