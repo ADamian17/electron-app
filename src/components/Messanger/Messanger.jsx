@@ -26,12 +26,11 @@ const Messanger = ({ onSubmit }) => {
 
   return (
     <div className="chat-input form-group mt-3 mb-0">
-      <textarea
+      <input
         className="form-control"
         placeholder="Type your message here"
-        name=""
+        name="message"
         id=""
-        rows="3"
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyPress={handleKeyPress}
